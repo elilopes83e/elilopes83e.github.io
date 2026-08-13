@@ -20,7 +20,18 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<!-- Fontes carregadas SEM bloquear a renderização.
+     O truque do media="print": o navegador baixa a folha mas não a
+     aplica (não é mídia de tela), então não trava o primeiro pixel;
+     no onload ela vira "all" e entra. Com display=swap na URL, o texto
+     aparece na hora com Impact/system-ui e troca sozinho quando chega.
+     Antes disso, o FCP ficava refém do Google Fonts. -->
+<link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600&family=DM+Sans:wght@400;500&display=swap">
+<noscript>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600&family=DM+Sans:wght@400;500&display=swap">
+</noscript>
 
 <style>
 :root{
@@ -210,32 +221,26 @@ body{
 }
 body.revelado .ceu::before{opacity:1;transform:scale(1.06)}
 
-/* Textura de fundo. Duas camadas somadas:
+/* Textura de fundo. Duas famílias somadas:
    1) os vincos de luz na diagonal, que imitam o plástico amassado do
       banner — usam --luz-rgb, então funcionam em qualquer esquema;
    2) os respingos de tinta herdados do cartaz antigo, no acento.
-   Ambas são discretas de propósito: quem manda é o conteúdo. */
+   CUIDADO AO ACRESCENTAR: cada linha aqui é uma camada do tamanho da
+   tela e custa um passe de pintura. Eram 19 e caiu para 11 — a olho
+   nu não muda nada, porque a camada inteira vive a ~28% de opacidade. */
 .respingos{
   position:fixed;inset:0;pointer-events:none;z-index:0;
   opacity:calc(.55 * var(--brilho));
   background:
-    linear-gradient(74deg, transparent 18%, rgba(var(--luz-rgb),.05) 19%, transparent 20%),
-    linear-gradient(74deg, transparent 41%, rgba(var(--luz-rgb),.035) 42%, transparent 43.5%),
-    linear-gradient(-63deg, transparent 55%, rgba(var(--luz-rgb),.045) 56%, transparent 57%),
-    linear-gradient(-63deg, transparent 77%, rgba(var(--luz-rgb),.03) 78%, transparent 79.5%),
-    linear-gradient(81deg, transparent 66%, rgba(var(--luz-rgb),.028) 67%, transparent 68%),
+    linear-gradient(74deg, transparent 18%, rgba(var(--luz-rgb),.05) 19%, transparent 20.5%),
+    linear-gradient(-63deg, transparent 55%, rgba(var(--luz-rgb),.045) 56%, transparent 57.5%),
+    linear-gradient(-63deg, transparent 78%, rgba(var(--luz-rgb),.03) 79%, transparent 80.5%),
     radial-gradient(2px 2px at 9% 16%, rgba(var(--acento-rgb),.6), transparent 62%),
     radial-gradient(3px 3px at 17% 74%, rgba(var(--acento-rgb),.32), transparent 62%),
-    radial-gradient(2px 2px at 26% 34%, rgba(var(--acento-rgb),.45), transparent 62%),
-    radial-gradient(1.5px 1.5px at 33% 89%, rgba(var(--acento-rgb),.5), transparent 62%),
-    radial-gradient(4px 4px at 44% 8%, rgba(var(--acento-rgb),.22), transparent 62%),
-    radial-gradient(2px 2px at 52% 57%, rgba(var(--acento-rgb),.28), transparent 62%),
-    radial-gradient(2.5px 2.5px at 61% 23%, rgba(var(--acento-rgb),.4), transparent 62%),
+    radial-gradient(2px 2px at 44% 34%, rgba(var(--acento-rgb),.45), transparent 62%),
     radial-gradient(1.5px 1.5px at 68% 81%, rgba(var(--acento-rgb),.55), transparent 62%),
-    radial-gradient(3px 3px at 77% 45%, rgba(var(--acento-rgb),.3), transparent 62%),
-    radial-gradient(2px 2px at 84% 12%, rgba(var(--acento-rgb),.42), transparent 62%),
-    radial-gradient(2px 2px at 91% 66%, rgba(var(--acento-rgb),.35), transparent 62%),
-    radial-gradient(1.5px 1.5px at 96% 30%, rgba(var(--acento-rgb),.5), transparent 62%),
+    radial-gradient(2.5px 2.5px at 84% 23%, rgba(var(--acento-rgb),.4), transparent 62%),
+    radial-gradient(2px 2px at 93% 62%, rgba(var(--acento-rgb),.35), transparent 62%),
     radial-gradient(140px 90px at 8% 92%, rgba(var(--musgo-rgb),.5), transparent 70%),
     radial-gradient(160px 110px at 94% 6%, rgba(var(--musgo-rgb),.42), transparent 70%);
 }
@@ -474,6 +479,7 @@ body.revelado .marca-erj{opacity:.9}
   position:relative;z-index:2;
   margin-top:16px;                   /* o logo já entrou acima */
   font-family:var(--etiqueta);
+  font-weight:600;                   /* explícito: só o 600 é baixado */
   font-size:.85rem;letter-spacing:.28em;text-transform:uppercase;
   color:rgba(var(--luz-rgb),.38);
   text-align:center;
@@ -496,7 +502,8 @@ body.revelado .marca-erj{opacity:.9}
 .aviso{
   position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);
   background:var(--acento);color:var(--tinta);
-  font-family:var(--etiqueta);font-size:.95rem;letter-spacing:.16em;text-transform:uppercase;
+  font-family:var(--etiqueta);font-weight:600;
+  font-size:.95rem;letter-spacing:.16em;text-transform:uppercase;
   padding:12px 22px;border-radius:999px;
   opacity:0;pointer-events:none;transition:.3s ease;z-index:5;
 }
@@ -639,7 +646,8 @@ function trocarCena(destino){
 
 /* brasas */
 function brasa(vidaBase){
-  if(calmo) return;
+  if(calmo || document.hidden) return;
+  if(document.getElementsByClassName("brasa").length >= TETO_BRASAS) return;
   const b = document.createElement("div");
   b.className = "brasa";
   const tam = 2 + Math.random()*4;
@@ -653,12 +661,35 @@ function brasa(vidaBase){
   document.body.appendChild(b);
   setTimeout(()=>b.remove(), vida*1000);
 }
+/* As brasas custam caro: cada uma é um elemento fixo com box-shadow,
+   ou seja, uma camada que o navegador compõe por quadro. Três freios:
+   1) só começam DEPOIS do load, para não disputar o primeiro paint;
+   2) pausam quando a aba sai de foco (antes rodavam para sempre,
+      gastando bateria com ninguém olhando);
+   3) o teto de brasas vivas é fixo, então rajada nenhuma explode. */
+const TETO_BRASAS = 26;
+let relogioBrasas = null;
+
+function iniciarBrasas(){
+  if(calmo || relogioBrasas) return;
+  relogioBrasas = setInterval(()=>brasa(7), 900);
+}
+function pararBrasas(){
+  clearInterval(relogioBrasas);
+  relogioBrasas = null;
+}
+
 if(!calmo){
-  setInterval(()=>brasa(7), 650);
-  for(let i=0;i<6;i++) setTimeout(()=>brasa(7), i*400);
+  addEventListener("load", () => {
+    iniciarBrasas();
+    for(let i=0;i<4;i++) setTimeout(()=>brasa(7), i*500);
+  });
+  document.addEventListener("visibilitychange", () => {
+    document.hidden ? pararBrasas() : iniciarBrasas();
+  });
 }
 function labareda(){
-  for(let i=0;i<38;i++) setTimeout(()=>brasa(3.4), i*22);
+  for(let i=0;i<18;i++) setTimeout(()=>brasa(3.4), i*40);
 }
 
 /* roleta */
