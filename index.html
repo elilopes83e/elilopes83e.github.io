@@ -279,7 +279,7 @@ body.revelado .ceu::before{opacity:1;transform:scale(1.06)}
   width:clamp(84px,22vw,118px);
   aspect-ratio:360/293;              /* proporção real do PNG embutido */
   background:var(--logo-erj) center/contain no-repeat;
-  margin:0 auto clamp(22px,5vw,34px);
+  margin:clamp(30px,6.5vw,44px) auto 0;   /* assina o pé da página */
   opacity:.72;
   filter:drop-shadow(0 0 18px rgba(var(--acento-rgb),calc(.28 * var(--brilho))));
   transition:opacity .6s ease;
@@ -472,7 +472,7 @@ body.revelado .marca-erj{opacity:.9}
 
 .rodape{
   position:relative;z-index:2;
-  margin-top:32px;
+  margin-top:16px;                   /* o logo já entrou acima */
   font-family:var(--etiqueta);
   font-size:.85rem;letter-spacing:.28em;text-transform:uppercase;
   color:rgba(var(--luz-rgb),.38);
@@ -524,8 +524,6 @@ body.revelado .marca-erj{opacity:.9}
 <div class="ceu" aria-hidden="true"></div>
 <div class="respingos" aria-hidden="true"></div>
 
-<div class="marca-erj" role="img" aria-label="ERJ · Explosão Radical Jovem"></div>
-
 <main class="palco">
 
   <!-- CENA 1 -->
@@ -573,6 +571,8 @@ body.revelado .marca-erj{opacity:.9}
   </section>
 
 </main>
+
+<div class="marca-erj" role="img" aria-label="ERJ · Explosão Radical Jovem"></div>
 
 <p class="rodape">ERJ · Renda-se ao Pai · Viva a missão</p>
 
