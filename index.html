@@ -121,13 +121,23 @@ body{
     radial-gradient(90% 55% at 50% 108%, rgba(var(--acento-claro-rgb),calc(.14 * var(--brilho))), transparent 65%);
   transition:opacity 1.2s ease, transform 1.2s ease;
   opacity:.55;
+  /* respiração lenta do fundo: dá vida constante à página, inclusive
+     na abertura, onde antes só havia as brasas. Anima só transform e
+     opacity, então roda na GPU e não custa repintura. */
+  animation:respirar-fundo 14s ease-in-out infinite;
+}
+@keyframes respirar-fundo{
+  0%,100%{transform:scale(1)   translateY(0)}
+  50%    {transform:scale(1.08) translateY(-1.5%)}
 }
 .ceu::after{
   background:
     radial-gradient(80% 50% at 15% -10%, rgba(var(--musgo-rgb),.75), transparent 60%),
     radial-gradient(70% 45% at 95% 5%, rgba(var(--sombra-rgb),.85), transparent 60%);
 }
-body.revelado .ceu::before{opacity:1;transform:scale(1.06)}
+/* só a opacidade: o transform agora pertence a respirar-fundo, e
+   animação vence declaração normal na cascata */
+body.revelado .ceu::before{opacity:1}
 
 /* Textura de fundo. Duas famílias somadas:
    1) os vincos de luz na diagonal, que imitam o plástico amassado do
@@ -356,6 +366,10 @@ body.revelado .marca-erj{opacity:.9}
 .acoes{display:flex;flex-wrap:wrap;gap:12px;width:100%;margin-top:24px}
 .botao{
   flex:1 1 160px;
+  /* inline-flex + text-decoration:none porque "Enviar no WhatsApp" é
+     uma âncora, não um <button> — veja o comentário no HTML */
+  display:inline-flex;align-items:center;justify-content:center;
+  text-align:center;text-decoration:none;
   font-family:var(--etiqueta);
   font-weight:600;
   font-size:clamp(1rem,3.8vw,1.06rem);
@@ -436,10 +450,18 @@ body.revelado .marca-erj{opacity:.9}
 }
 .aviso.visivel{opacity:1;transform:translate(-50%,0)}
 
+/* Se o celular estiver com "Reduzir movimento" ligado (Ajustes >
+   Acessibilidade no iPhone, Acessibilidade no Android), TUDO abaixo
+   entra em vigor e a página fica praticamente parada — é a explicação
+   mais comum para "não tem animação nenhuma" num aparelho só.
+   O que incomoda nessa preferência é deslocamento, não desvanecimento,
+   então mantemos a entrada das cenas como fade puro. */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
   .brasa{display:none}
+  .cena.ativa{animation:aparecer .4s ease both !important}
 }
+@keyframes aparecer{from{opacity:0}to{opacity:1}}
 
 /* ==================================================================
    LOGO ERJ EMBUTIDO — não edite esta linha na mão.
@@ -500,7 +522,13 @@ body.revelado .marca-erj{opacity:.9}
 
     <div class="acoes">
       <button class="botao calmo" id="btn-outra">Sortear outra</button>
-      <button class="botao principal" id="btn-enviar">Enviar no WhatsApp</button>
+      <!-- PRECISA ser um link de verdade, não um <button> com window.open.
+           iOS e Android só entregam o link para o APP do WhatsApp quando
+           a navegação vem de um clique em âncora. Com window.open o
+           sistema não intercepta e sobra o WhatsApp Web no navegador.
+           O href é preenchido pelo JS a cada missão revelada. -->
+      <a class="botao principal" id="btn-enviar" role="button"
+         href="https://wa.me/" target="_blank" rel="noopener">Enviar no WhatsApp</a>
     </div>
     <button class="botao-texto" id="btn-copiar">copiar o texto da missão</button>
   </section>
@@ -595,12 +623,12 @@ function brasa(vidaBase){
    2) pausam quando a aba sai de foco (antes rodavam para sempre,
       gastando bateria com ninguém olhando);
    3) o teto de brasas vivas é fixo, então rajada nenhuma explode. */
-const TETO_BRASAS = 26;
+const TETO_BRASAS = 34;
 let relogioBrasas = null;
 
 function iniciarBrasas(){
   if(calmo || relogioBrasas) return;
-  relogioBrasas = setInterval(()=>brasa(7), 900);
+  relogioBrasas = setInterval(()=>brasa(7), 620);
 }
 function pararBrasas(){
   clearInterval(relogioBrasas);
@@ -610,14 +638,14 @@ function pararBrasas(){
 if(!calmo){
   addEventListener("load", () => {
     iniciarBrasas();
-    for(let i=0;i<4;i++) setTimeout(()=>brasa(7), i*500);
+    for(let i=0;i<8;i++) setTimeout(()=>brasa(7), i*260);
   });
   document.addEventListener("visibilitychange", () => {
     document.hidden ? pararBrasas() : iniciarBrasas();
   });
 }
 function labareda(){
-  for(let i=0;i<18;i++) setTimeout(()=>brasa(3.4), i*40);
+  for(let i=0;i<32;i++) setTimeout(()=>brasa(3.4), i*26);
 }
 
 /* roleta */
@@ -648,6 +676,9 @@ function revelar(indiceForcado){
   const missao = missoes[escolhido];
   const versiculo = versiculos[Math.floor(Math.random()*versiculos.length)];
   atual = { missao, versiculo };
+  /* o link do WhatsApp é montado agora, não no clique: âncora precisa
+     do href pronto para o sistema entregar ao app */
+  $("btn-enviar").href = "https://wa.me/?text=" + encodeURIComponent(textoDaMissao());
 
   const cartao = document.querySelector(".cartao");
   $("quem").style.opacity = $("tarefa").style.opacity = "0";
@@ -684,27 +715,13 @@ $("btn-comecar").addEventListener("click", () => {
 
 $("btn-outra").addEventListener("click", () => revelar());
 
-/* LINK DIRETO PARA UMA MISSÃO:  https://elilopes83e.github.io/#m=2
-   Abre já no cartão daquela missão, sem roleta. Serve para o líder
-   projetar uma missão específica, ou para alguém mostrar exatamente
-   a que tirou. O índice é a posição na lista "missoes", começando
-   do zero — #m=0 é a MISSÃO ANDRÉ.
-   Repare que o link enviado no WhatsApp NÃO leva #m=: é de propósito,
-   para quem recebe sortear a própria missão em vez de repetir a sua. */
-function missaoDaURL(){
-  const achado = /^#m=(\d+)$/.exec(location.hash);
-  if(!achado) return -1;
-  const i = parseInt(achado[1], 10);
-  return (i >= 0 && i < missoes.length) ? i : -1;
-}
-
-const missaoInicial = missaoDaURL();
-if(missaoInicial >= 0) revelar(missaoInicial);
-
 /* Endereço público da página. É ele que viaja junto da mensagem e faz
    a corrente andar: quem recebe consegue sortear a PRÓPRIA missão em
    vez de só ler a dos outros. Se mudar de domínio, troque aqui e nas
-   meta og: lá no <head>. */
+   meta og: lá no <head>.
+   ORDEM IMPORTA: isto precisa estar declarado ANTES de qualquer chamada
+   a revelar(), porque revelar() já monta o link do WhatsApp. Se ficasse
+   depois, o link direto #m= estouraria um ReferenceError. */
 const ENDERECO = "https://elilopes83e.github.io/";
 
 function textoDaMissao(){
@@ -729,16 +746,6 @@ function avisar(mensagem){
   setTimeout(()=>aviso.classList.remove("visivel"), 2200);
 }
 
-/* wa.me é o "click to chat" oficial do WhatsApp: sem API, sem cadastro,
-   sem servidor. Abre o app já com o texto pronto e o usuário só escolhe
-   para quem mandar. Funciona no Android, no iPhone e, no computador,
-   cai no WhatsApp Web. Trocou a bandeja de compartilhamento genérica
-   porque agora o botão faz exatamente o que o rótulo promete. */
-$("btn-enviar").addEventListener("click", () => {
-  if(!atual) return;
-  window.open("https://wa.me/?text=" + encodeURIComponent(textoDaMissao()), "_blank");
-});
-
 $("btn-copiar").addEventListener("click", async () => {
   if(!atual) return;
   const texto = textoDaMissao();
@@ -750,6 +757,24 @@ $("btn-copiar").addEventListener("click", async () => {
     window.prompt("Copie sua missão:", texto);
   }
 });
+
+/* LINK DIRETO PARA UMA MISSÃO:  https://elilopes83e.github.io/#m=2
+   Abre já no cartão daquela missão, sem roleta. Serve para o líder
+   projetar uma missão específica, ou para alguém mostrar exatamente
+   a que tirou. O índice é a posição na lista "missoes", começando
+   do zero — #m=0 é a MISSÃO ANDRÉ.
+   Repare que o link enviado no WhatsApp NÃO leva #m=: é de propósito,
+   para quem recebe sortear a própria missão em vez de repetir a sua.
+   Fica no FIM do script porque revelar() depende de tudo acima. */
+function missaoDaURL(){
+  const achado = /^#m=(\d+)$/.exec(location.hash);
+  if(!achado) return -1;
+  const i = parseInt(achado[1], 10);
+  return (i >= 0 && i < missoes.length) ? i : -1;
+}
+
+const missaoInicial = missaoDaURL();
+if(missaoInicial >= 0) revelar(missaoInicial);
 </script>
 
 </body>
