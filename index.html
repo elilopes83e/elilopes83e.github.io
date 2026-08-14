@@ -8,14 +8,26 @@
 <!-- acompanha o --fundo do esquema ativo
      (A: #050505 · B: #070906 · C: #00121C) -->
 <meta name="theme-color" content="#00121C">
+<!-- ==================================================================
+     PRÉVIA DO LINK NO WHATSAPP
+     Estas tags são lidas pelo robô do WhatsApp/Facebook, que roda FORA
+     do navegador: por isso todo caminho aqui tem que ser URL absoluta,
+     e por isso og:image não aceita data:base64 como o resto do arquivo.
+     preview.jpg (1200x630) precisa estar publicado junto do index.html.
+
+     ATENÇÃO: o WhatsApp guarda a prévia em cache com força. Se precisar
+     mudar algo aqui depois de já ter divulgado o link, a prévia antiga
+     pode continuar aparecendo por bastante tempo.
+     ================================================================== -->
+<meta property="og:site_name" content="ERJ · Explosão Radical Jovem">
 <meta property="og:title" content="Missão da Rendição">
 <meta property="og:description" content="Deus tem uma missão para você. Receba a sua.">
 <meta property="og:type" content="website">
-<!-- og:image é lido por robôs externos (WhatsApp, Facebook): precisa ser
-     URL absoluta e NÃO aceita data: base64. Para a prévia do link
-     funcionar, suba erj-logo.png junto e troque pela URL completa,
-     ex.: https://SEU-USUARIO.github.io/SEU-REPO/erj-logo.png -->
-<meta property="og:image" content="erj-logo.png">
+<meta property="og:url" content="https://elilopes83e.github.io/">
+<meta property="og:image" content="https://elilopes83e.github.io/preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,118 +47,14 @@
 
 <style>
 :root{
-/* ==================================================================
-   ESQUEMA DE CORES — existem TRÊS. Apenas UM pode ficar ativo.
-   Nenhuma cor está escrita solta no resto do arquivo: tudo aponta
-   para os tokens daqui, então trocar o bloco troca a página inteira.
-
-   A · NEON PURO       preto + verde do logo em tudo
-   B · GRAFITE & NEON  grafite + verde escasso
-   C · CELEBRAÇÃO      petróleo + vermelhão do banner   <-- ATIVO
-
-   SOBRE A IDENTIDADE ERJ: ela é o DESENHO da marca, não uma cor fixa.
-   No cartaz antigo o logo é verde; no banner "Celebração de Jovens"
-   o mesmo logo aparece em laranja. Por isso o logo virou tingível:
-   --logo-cor manda nele, e cada esquema escolhe a sua.
-   O verde original fica guardado em --erj-rgb, sempre disponível.
-
-   Se trocar de esquema, ajuste também a meta theme-color lá no <head>
-   para o mesmo valor do --fundo.
-   ================================================================== */
 
   /* verde histórico do ERJ, medido no logo — nunca muda,
      serve de referência para qualquer esquema que queira usá-lo */
   --erj-rgb:165,227,12;
 
-/* ------------------------------------------------------------------
-   ESQUEMA A · "NEON PURO"   [ DESATIVADO ]
 
-   Preto absoluto e o verde em quase tudo — rótulos, bordas, textos de
-   apoio, brilho no talo. Agressivo, tipo painel de LED.
 
-   PARA ATIVAR O A: apague por inteiro a linha "abre A" e a linha
-   "fecha A" logo abaixo — são elas que carregam os sinais de
-   comentário que mantêm o bloco desligado.
-   Depois desligue o esquema que estiver ativo.
-   ------------------------------------------------------------------ */
 
-  /* abre A
-  --acento-rgb:165,227,12;
-  --acento-claro-rgb:198,245,60;
-  --apoio-rgb:165,227,12;
-  --luz-rgb:244,247,238;
-  --musgo-rgb:42,58,8;
-  --sombra-rgb:26,32,16;
-
-  --fundo:#050505;
-  --fundo-alto:#0B0E07;
-  --painel:#0E1209;
-  --painel-2:#070A04;
-  --tinta:#0A1000;
-
-  --brilho:1;
-  --linha:rgba(var(--acento-rgb),.22);
-  --rotulo:rgb(var(--acento-rgb));
-  --apoio:rgba(var(--apoio-rgb),.72);
-  --logo-cor:rgb(var(--erj-rgb));
-  fecha A */
-
-/* ------------------------------------------------------------------
-   ESQUEMA B · "GRAFITE & NEON"   [ DESATIVADO ]
-   Lê o cartaz antigo inteiro, não só o logo: lá o preto é o chão, o
-   BRANCO é a voz, o verde é o grito e existe um cáqui sujo no meio.
-   Aqui o neon fica escasso — só no nome da missão, na barra do
-   versículo, na referência e no botão principal. Os textos de apoio
-   passam para um verde dessaturado (--apoio-rgb), que é o mesmo verde
-   "descansado", e o cartão sobe para um grafite esverdeado em vez de
-   preto, para virar objeto sobre a página. Menos neon = o neon pesa
-   mais quando aparece.
-
-   PARA ATIVAR O B: apague as linhas "abre B" e "fecha B" abaixo,
-   e desligue o esquema que estiver ativo.
-   ------------------------------------------------------------------ */
-
-  /* abre B
-  --acento-rgb:165,227,12;
-  --acento-claro-rgb:198,245,60;
-  --apoio-rgb:168,186,134;
-  --luz-rgb:245,247,240;
-  --musgo-rgb:38,50,20;
-  --sombra-rgb:30,34,28;
-
-  --fundo:#070906;
-  --fundo-alto:#101410;
-  --painel:#151A12;
-  --painel-2:#0C0F0A;
-  --tinta:#0A1000;
-
-  --brilho:.55;
-  --linha:rgba(var(--luz-rgb),.12);
-  --rotulo:rgb(var(--apoio-rgb));
-  --apoio:rgb(var(--apoio-rgb));
-  --logo-cor:rgb(var(--erj-rgb));
-  fecha B */
-
-/* ------------------------------------------------------------------
-   ESQUEMA C · "CELEBRAÇÃO"   [ ATIVO ]
-   Tirado do banner "Celebração de Jovens" (imagem base.jpeg).
-   Cores medidas direto na imagem: o fundo é um azul-petróleo que vai
-   de #00121C nos cantos a #004B6B atrás do título, e o laranja dos
-   títulos é #FF4C2C (255,76,44).
-
-   A MESCLA, papel por papel:
-     petróleo  = o chão, igual ao banner
-     vermelhão = a voz do evento — rótulos, nome da missão, botão
-     branco    = o texto que se lê, igual às fotos P&B do banner
-     verde ERJ = a assinatura da marca — fica SÓ no logo e na barra do
-                 versículo. Dois toques, de propósito: é o que amarra
-                 a página ao ERJ sem competir com o laranja do evento.
-
-   O verde e o laranja são quase opostos no círculo cromático, então
-   sobre o petróleo escuro os dois brilham sem se sujar — desde que o
-   verde apareça pouco. Se quiser o logo laranja igual ao banner,
-   troque --logo-cor pela linha comentada logo abaixo dele.
-   ------------------------------------------------------------------ */
 
   --acento-rgb:255,76,44;
   --acento-claro-rgb:255,106,72;
@@ -461,6 +369,9 @@ body.revelado .marca-erj{opacity:.9}
 }
 /* na abertura o container é coluna: o flex-basis viraria altura */
 .abertura .botao{flex:0 0 auto}
+/* "Enviar no WhatsApp" é bem mais longo que "Sortear outra": sem isso
+   ele quebra em duas linhas e deixa a dupla desalinhada */
+.acoes .botao.principal{flex:1.45 1 190px}
 .botao.principal{
   background:linear-gradient(140deg,var(--acento-claro),var(--acento));
   color:var(--tinta);
@@ -474,6 +385,22 @@ body.revelado .marca-erj{opacity:.9}
 .botao.calmo:hover{border-color:var(--acento);color:var(--acento)}
 .botao:active{transform:translateY(0) scale(.98)}
 .botao:focus-visible{outline:2px solid var(--acento);outline-offset:3px}
+
+/* ação terciária: existe para quem não usa WhatsApp, sem roubar
+   atenção do botão principal */
+.botao-texto{
+  margin-top:14px;
+  background:none;border:none;cursor:pointer;
+  font-family:var(--corpo);
+  font-size:.88rem;
+  color:var(--luz-suave);
+  text-decoration:underline;
+  text-underline-offset:4px;
+  padding:6px 10px;
+  transition:color .18s ease;
+}
+.botao-texto:hover{color:var(--acento)}
+.botao-texto:focus-visible{outline:2px solid var(--acento);outline-offset:3px;border-radius:8px}
 
 .rodape{
   position:relative;z-index:2;
@@ -573,8 +500,9 @@ body.revelado .marca-erj{opacity:.9}
 
     <div class="acoes">
       <button class="botao calmo" id="btn-outra">Sortear outra</button>
-      <button class="botao principal" id="btn-enviar">Enviar para alguém</button>
+      <button class="botao principal" id="btn-enviar">Enviar no WhatsApp</button>
     </div>
+    <button class="botao-texto" id="btn-copiar">copiar o texto da missão</button>
   </section>
 
 </main>
@@ -693,9 +621,9 @@ function labareda(){
 }
 
 /* roleta */
-function girar(missao, aoTerminar){
+function girar(missao, aoTerminar, instantaneo){
   const alvo = $("nome");
-  if(calmo){ alvo.textContent = missao.nome; aoTerminar(); return; }
+  if(calmo || instantaneo){ alvo.textContent = missao.nome; aoTerminar(); return; }
   let intervalo = 55, total = 0;
   (function passo(){
     alvo.textContent = missoes[Math.floor(Math.random()*missoes.length)].nome;
@@ -712,8 +640,12 @@ function girar(missao, aoTerminar){
   })();
 }
 
-function revelar(){
-  const missao = missoes[proximoIndice()];
+/* indiceForcado só é aceito se for inteiro de verdade. Isso importa
+   porque btn-outra chama revelar direto num addEventListener, e sem
+   essa checagem o MouseEvent entraria como argumento. */
+function revelar(indiceForcado){
+  const escolhido = Number.isInteger(indiceForcado) ? indiceForcado : proximoIndice();
+  const missao = missoes[escolhido];
   const versiculo = versiculos[Math.floor(Math.random()*versiculos.length)];
   atual = { missao, versiculo };
 
@@ -728,6 +660,8 @@ function revelar(){
   girar(missao, () => {
     document.body.classList.add("revelado");
     labareda();
+    /* se o usuário sorteou de novo, o #m= antigo deixa de valer */
+    if(!Number.isInteger(indiceForcado)) history.replaceState(null, "", location.pathname);
     $("quem").textContent = missao.quem;
     $("tarefa").textContent = missao.texto;
     $("palavra").textContent = versiculo.texto;
@@ -739,7 +673,7 @@ function revelar(){
         void el.offsetWidth;
         el.style.animation = `subir-suave .55s cubic-bezier(.22,1,.36,1) ${i*.09}s both`;
       });
-  });
+  }, Number.isInteger(indiceForcado));   /* link direto pula a roleta */
 }
 
 $("btn-comecar").addEventListener("click", () => {
@@ -748,12 +682,34 @@ $("btn-comecar").addEventListener("click", () => {
   setTimeout(revelar, calmo ? 200 : 1800);
 });
 
-$("btn-outra").addEventListener("click", revelar);
+$("btn-outra").addEventListener("click", () => revelar());
 
-$("btn-enviar").addEventListener("click", async () => {
-  if(!atual) return;
-  const texto =
-`${atual.missao.nome}
+/* LINK DIRETO PARA UMA MISSÃO:  https://elilopes83e.github.io/#m=2
+   Abre já no cartão daquela missão, sem roleta. Serve para o líder
+   projetar uma missão específica, ou para alguém mostrar exatamente
+   a que tirou. O índice é a posição na lista "missoes", começando
+   do zero — #m=0 é a MISSÃO ANDRÉ.
+   Repare que o link enviado no WhatsApp NÃO leva #m=: é de propósito,
+   para quem recebe sortear a própria missão em vez de repetir a sua. */
+function missaoDaURL(){
+  const achado = /^#m=(\d+)$/.exec(location.hash);
+  if(!achado) return -1;
+  const i = parseInt(achado[1], 10);
+  return (i >= 0 && i < missoes.length) ? i : -1;
+}
+
+const missaoInicial = missaoDaURL();
+if(missaoInicial >= 0) revelar(missaoInicial);
+
+/* Endereço público da página. É ele que viaja junto da mensagem e faz
+   a corrente andar: quem recebe consegue sortear a PRÓPRIA missão em
+   vez de só ler a dos outros. Se mudar de domínio, troque aqui e nas
+   meta og: lá no <head>. */
+const ENDERECO = "https://elilopes83e.github.io/";
+
+function textoDaMissao(){
+  if(!atual) return "";
+  return `${atual.missao.nome}
 
 ${atual.missao.texto}
 
@@ -761,18 +717,36 @@ ${atual.missao.texto}
 ${atual.versiculo.referencia}
 
 Não guarde essa missão. Viva-a.
-Noite da Rendição dos Filhos · ERJ`;
 
-  if(navigator.share){
-    try{ await navigator.share({ title:"Missão da Rendição", text:texto }); return; }
-    catch(e){ if(e.name === "AbortError") return; }
-  }
+Receba a sua missão: ${ENDERECO}
+Noite da Rendição dos Filhos · ERJ`;
+}
+
+function avisar(mensagem){
+  const aviso = $("aviso");
+  aviso.textContent = mensagem;
+  aviso.classList.add("visivel");
+  setTimeout(()=>aviso.classList.remove("visivel"), 2200);
+}
+
+/* wa.me é o "click to chat" oficial do WhatsApp: sem API, sem cadastro,
+   sem servidor. Abre o app já com o texto pronto e o usuário só escolhe
+   para quem mandar. Funciona no Android, no iPhone e, no computador,
+   cai no WhatsApp Web. Trocou a bandeja de compartilhamento genérica
+   porque agora o botão faz exatamente o que o rótulo promete. */
+$("btn-enviar").addEventListener("click", () => {
+  if(!atual) return;
+  window.open("https://wa.me/?text=" + encodeURIComponent(textoDaMissao()), "_blank");
+});
+
+$("btn-copiar").addEventListener("click", async () => {
+  if(!atual) return;
+  const texto = textoDaMissao();
   try{
     await navigator.clipboard.writeText(texto);
-    const aviso = $("aviso");
-    aviso.classList.add("visivel");
-    setTimeout(()=>aviso.classList.remove("visivel"), 2200);
+    avisar("Missão copiada");
   }catch(e){
+    /* clipboard exige HTTPS e permissão; o prompt sempre funciona */
     window.prompt("Copie sua missão:", texto);
   }
 });
